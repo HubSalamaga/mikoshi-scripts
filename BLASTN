@@ -10,20 +10,35 @@ Help()
 {
    # Display Help
    echo "options:"
-   echo "g     Print the GPL license notification."
+   echo "q     Query path."
    echo "h     Print this Help."
-   echo "v     Verbose mode."
-   echo "V     Print software version and exit."
+   echo "db    database path."
+   echo "o     out path."
+   echo "outfmt outformat."
+   echo "m     max target sequences."
    echo
 }
 
 
 # Get the options
-while getopts ":h" option; do
+while getopts ":hq:" option; do
    case $option in
       h) # display Help
          Help
          exit;;
+      q) # Enter query path
+         query_path=$OPTARG;;
+      db) # Enter database path
+         db_path=$OPTARG;;
+      o) # Enter output path
+         out_path=$OPTARG;;
+      outfmt) # Enter the output type
+         out_type=$OPTARG;;
+       m) # Max target sequences
+            m_targets=$OPTARG;;
+       t) # Task type
+            task=$OPTARG;;
+         
    esac
 done
 
@@ -32,5 +47,4 @@ source ~/miniconda3/etc/profile.d/conda.sh
 conda init bash
 bash
 conda activate blast
-
-blastn  -subject_besthit -task blastn -query  $1 -out $2 -outfmt 6 -db $3
+blastn -task $task -query $query_path -out $out_path -outfmt $out_type -db $db_path -max_target_seqs $m_targets 
