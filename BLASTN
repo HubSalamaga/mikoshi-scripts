@@ -1,0 +1,36 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --time=8:00:00
+#SBATCH --job-name=BLASTN_SEARCH
+#SBATCH --mem=100G
+#SBATCH --partition=short
+#SBATCH --cpus-per-task=64
+
+Help()
+{
+   # Display Help
+   echo "options:"
+   echo "g     Print the GPL license notification."
+   echo "h     Print this Help."
+   echo "v     Verbose mode."
+   echo "V     Print software version and exit."
+   echo
+}
+
+
+# Get the options
+while getopts ":h" option; do
+   case $option in
+      h) # display Help
+         Help
+         exit;;
+   esac
+done
+
+
+source ~/miniconda3/etc/profile.d/conda.sh 
+conda init bash
+bash
+conda activate blast
+
+blastn  -subject_besthit -task blastn -query  $1 -out $2 -outfmt 6 -db $3
