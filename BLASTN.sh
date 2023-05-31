@@ -38,13 +38,14 @@ while getopts ":hq:" option; do
             m_targets=$OPTARG;;
        t) # Task type
             task=$OPTARG;;
-         
+       e) # Evalue cutoff
+            e=$OPTARG;;
+       
    esac
 done
-
 
 source ~/miniconda3/etc/profile.d/conda.sh 
 conda init bash
 bash
 conda activate blast
-blastn -task $task -query $query_path -out $out_path -outfmt $out_type -db $db_path -max_target_seqs $m_targets 
+blastn -task $task -query $query_path -out $out_path -outfmt $out_type -db $db_path -max_target_seqs $m_targets -subject_besthit -evalue $e
